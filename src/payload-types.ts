@@ -65,7 +65,10 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    'product-banner-block': ProductBannerBlockType;
+    'hero-banner-block': HeroBannerBlockType;
+  };
   collections: {
     users: User;
     media: Media;
@@ -87,8 +90,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'sales-page': SalesPage;
+  };
+  globalsSelect: {
+    'sales-page': SalesPageSelect<false> | SalesPageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -116,6 +123,32 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductBannerBlockType".
+ */
+export interface ProductBannerBlockType {
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  subtitle: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'product-banner-block';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBannerBlockType".
+ */
+export interface HeroBannerBlockType {
+  title: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero-banner-block';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,6 +349,52 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-page".
+ */
+export interface SalesPage {
+  id: number;
+  layout?: (ProductBannerBlockType | HeroBannerBlockType)[] | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sales-page_select".
+ */
+export interface SalesPageSelect<T extends boolean = true> {
+  layout?:
+    | T
+    | {
+        'product-banner-block'?: T | ProductBannerBlockTypeSelect<T>;
+        'hero-banner-block'?: T | HeroBannerBlockTypeSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductBannerBlockType_select".
+ */
+export interface ProductBannerBlockTypeSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  subtitle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBannerBlockType_select".
+ */
+export interface HeroBannerBlockTypeSelect<T extends boolean = true> {
+  title?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
